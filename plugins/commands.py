@@ -42,7 +42,7 @@ def get_size(size):
 # Ask Doubt on telegram @KingVJ0
 
 
-@App.on_message(filters.command("start"))
+@client.on_message(filters.command("start"))
 @force_sub  # Apply subscription check to the /start command
 async def start(client, message):
     await message.reply("Welcome! You have access to this command.")
