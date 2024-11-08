@@ -47,13 +47,13 @@ def get_size(size):
 async def start(client, message):
     await message.reply("Welcome! You have access to this command.")
 
-@app.on_message(filters.command("add_fsub"))# Apply subscription check to any other command
+@Client.on_message(filters.command("add_fsub"))# Apply subscription check to any other command
 async def some_command(client, message):
     _, fsub_id, fsub_name = message.text.split(" ", maxsplit=2)
     REQUIRED_CHANNELS[fsub_id] = fsub_name
     await message.reply("You can access this command because you are subscribed to all required channels.")
 
-app.run()
+Client.run()
 async def start(client, message):
     username = (await client.get_me()).username
     if not await db.is_user_exist(message.from_user.id):
