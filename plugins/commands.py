@@ -52,8 +52,6 @@ async def some_command(client, message):
     _, fsub_id, fsub_name = message.text.split(" ", maxsplit=2)
     REQUIRED_CHANNELS[fsub_id] = fsub_name
     await message.reply("You can access this command because you are subscribed to all required channels.")
-
-Client.run()
 async def start(client, message):
     username = (await client.get_me()).username
     if not await db.is_user_exist(message.from_user.id):
