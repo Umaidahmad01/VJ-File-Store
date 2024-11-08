@@ -1,8 +1,7 @@
 # Don't Remove Credit Tg - @VJ_Botz
 # Subscribe YouTube Channel For Amazing Bot https://youtube.com/@Tech_VJ
 # Ask Doubt on telegram @KingVJ01
-from pyrogram.enums import ChatMemberStatus
-from pyrogram.errors import UserNotParticipant, Forbidden, PeerIdInvalid, ChatAdminRequired
+
 import os
 import logging
 import random
@@ -26,6 +25,11 @@ logger = logging.getLogger(__name__)
 
 BATCH_FILES = {}
 
+# Don't Remove Credit Tg - @VJ_Botz
+# Subscribe YouTube Channel For Amazing Bot https://youtube.com/@Tech_VJ
+# Ask Doubt on telegram @KingVJ01
+
+
 def get_size(size):
     """Get size in readable format"""
 
@@ -42,16 +46,7 @@ def get_size(size):
 # Ask Doubt on telegram @KingVJ0
 
 
-@Client.on_message(filters.command("start"))
-  # Apply subscription check to the /start command
-async def start(client, message):
-    await message.reply("Welcome! You have access to this command.")
-
-@Client.on_message(filters.command("add_fsub"))# Apply subscription check to any other command
-async def some_command(client, message):
-    _, fsub_id, fsub_name = message.text.split(" ", maxsplit=2)
-    REQUIRED_CHANNELS[fsub_id] = fsub_name
-    await message.reply("You can access this command because you are subscribed to all required channels.")
+@Client.on_message(filters.command("start") & filters.incoming)
 async def start(client, message):
     username = (await client.get_me()).username
     if not await db.is_user_exist(message.from_user.id):
@@ -59,16 +54,16 @@ async def start(client, message):
         await client.send_message(LOG_CHANNEL, script.LOG_TEXT.format(message.from_user.id, message.from_user.mention))
     if len(message.command) != 2:
         buttons = [[
-            InlineKeyboardButton('⛩️ Mᴀɪɴ ᴄʜᴀɴɴᴇʟ', url='https://t.me/Anime_Sub_Society')
+            InlineKeyboardButton('💝 sᴜʙsᴄʀɪʙᴇ ᴍʏ ʏᴏᴜᴛᴜʙᴇ ᴄʜᴀɴɴᴇʟ', url='https://youtube.com/@Tech_VJ')
             ],[
-            InlineKeyboardButton('⛩️ Sᴜᴘᴘᴏʀᴛ ɢʀᴏᴜᴘ', url='https://t.me/ahss_help_zone'),
-            InlineKeyboardButton('⛩️ Oɴɢᴏɪɴɢ ᴄʜᴀɴɴᴇʟ', url='https://t.me/ongoing_society')
+            InlineKeyboardButton('🔍 sᴜᴘᴘᴏʀᴛ ɢʀᴏᴜᴘ', url='https://t.me/vj_bot_disscussion'),
+            InlineKeyboardButton('🤖 ᴜᴘᴅᴀᴛᴇ ᴄʜᴀɴɴᴇʟ', url='https://t.me/vj_botz')
             ],[
-            InlineKeyboardButton('Hᴇʟᴘ', callback_data='help'),
-            InlineKeyboardButton('⚡ Aʙᴏᴜᴛ', callback_data='about')
+            InlineKeyboardButton('💁‍♀️ ʜᴇʟᴘ', callback_data='help'),
+            InlineKeyboardButton('😊 ᴀʙᴏᴜᴛ', callback_data='about')
         ]]
         if CLONE_MODE == True:
-            buttons.append([InlineKeyboardButton('ᴄʀᴇᴀᴛᴇ ʏᴏᴜʀ ᴏᴡɴ ᴄʟᴏɴᴇ ʙᴏᴛ', callback_data='clone')])
+            buttons.append([InlineKeyboardButton('🤖 ᴄʀᴇᴀᴛᴇ ʏᴏᴜʀ ᴏᴡɴ ᴄʟᴏɴᴇ ʙᴏᴛ', callback_data='clone')])
         reply_markup = InlineKeyboardMarkup(buttons)
         me2 = (await client.get_me()).mention
         await message.reply_photo(
@@ -175,7 +170,7 @@ async def start(client, message):
                 if STREAM_MODE == True:
                     button = [[
                         InlineKeyboardButton("🚀 Fast Download 🚀", url=download),  # we download Link
-                        InlineKeyboardButton(' Watch online ', url=stream)
+                        InlineKeyboardButton('🖥️ Watch online 🖥️', url=stream)
                     ],[
                         InlineKeyboardButton("• ᴡᴀᴛᴄʜ ɪɴ ᴡᴇʙ ᴀᴘᴘ •", web_app=WebAppInfo(url=stream))
                     ]]
@@ -392,7 +387,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
     elif query.data == "about":
         buttons = [[
             InlineKeyboardButton('Hᴏᴍᴇ', callback_data='start'),
-            InlineKeyboardButton('⚡ Cʟᴏsᴇ', callback_data='close_data')
+            InlineKeyboardButton('🔒 Cʟᴏsᴇ', callback_data='close_data')
         ]]
         await client.edit_message_media(
             query.message.chat.id, 
@@ -413,15 +408,15 @@ async def cb_handler(client: Client, query: CallbackQuery):
     
     elif query.data == "start":
         buttons = [[
-            InlineKeyboardButton('⛩️ Mᴀɪɴ ᴄʜᴀɴɴᴇʟ', url='https://t.me/Anime_Sub_Society')
+            InlineKeyboardButton('💝 sᴜʙsᴄʀɪʙᴇ ᴍʏ ʏᴏᴜᴛᴜʙᴇ ᴄʜᴀɴɴᴇʟ', url='https://youtube.com/@Tech_VJ')
             ],[
-            InlineKeyboardButton('⛩️ Sᴜᴘᴘᴏʀᴛ ɢʀᴏᴜᴘ', url='https://t.me/ahss_hepl_zone'),
-            InlineKeyboardButton('⛩️ Oɴɢᴏɪɴɢ ᴄʜᴀɴɴᴇʟ', url='https://t.me/ongoing_society')
+            InlineKeyboardButton('🔍 sᴜᴘᴘᴏʀᴛ ɢʀᴏᴜᴘ', url='https://t.me/vj_bot_disscussion'),
+            InlineKeyboardButton('🤖 ᴜᴘᴅᴀᴛᴇ ᴄʜᴀɴɴᴇʟ', url='https://t.me/vj_botz')
             ],[
-            InlineKeyboardButton('ᴄʀᴇᴀᴛᴇ ʏᴏᴜʀ ᴏᴡɴ ᴄʟᴏɴᴇ ʙᴏᴛ', callback_data='clone')
+            InlineKeyboardButton('🤖 ᴄʀᴇᴀᴛᴇ ʏᴏᴜʀ ᴏᴡɴ ᴄʟᴏɴᴇ ʙᴏᴛ', callback_data='clone')
             ],[
-            InlineKeyboardButton(' Hᴇʟᴘ', callback_data='help'),
-            InlineKeyboardButton('⚡ Aʙᴏᴜᴛ', callback_data='about')
+            InlineKeyboardButton('💁‍♀️ ʜᴇʟᴘ', callback_data='help'),
+            InlineKeyboardButton('😊 ᴀʙᴏᴜᴛ', callback_data='about')
         ]]
         
         reply_markup = InlineKeyboardMarkup(buttons)
@@ -444,7 +439,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
     elif query.data == "clone":
         buttons = [[
             InlineKeyboardButton('Hᴏᴍᴇ', callback_data='start'),
-            InlineKeyboardButton('⚡ Cʟᴏsᴇ', callback_data='close_data')
+            InlineKeyboardButton('🔒 Cʟᴏsᴇ', callback_data='close_data')
         ]]
         await client.edit_message_media(
             query.message.chat.id, 
@@ -455,158 +450,4 @@ async def cb_handler(client: Client, query: CallbackQuery):
         await query.message.edit_text(
             text=script.CLONE_TXT.format(query.from_user.mention),
             reply_markup=reply_markup,
-            parse_mode=enums.ParseMode.HTML
-        )          
-
-# Don't Remove Credit Tg - @VJ_Botz
-# Subscribe YouTube Channel For Amazing Bot https://youtube.com/@Tech_VJ
-# Ask Doubt on telegram @KingVJ01
-    
-    elif query.data == "help":
-        buttons = [[
-            InlineKeyboardButton('Hᴏᴍᴇ', callback_data='start'),
-            InlineKeyboardButton('⚡ Cʟᴏsᴇ', callback_data='close_data')
-        ]]
-        await client.edit_message_media(
-            query.message.chat.id, 
-            query.message.id, 
-            InputMediaPhoto(random.choice(PICS))
-        )
-        reply_markup = InlineKeyboardMarkup(buttons)
-        await query.message.edit_text(
-            text=script.HELP_TXT,
-            reply_markup=reply_markup,
-            parse_mode=enums.ParseMode.HTML
-        )  
-
-# Don't Remove Credit Tg - @VJ_Botz
-# Subscribe YouTube Channel For Amazing Bot https://youtube.com/@Tech_VJ
-# Ask Doubt on telegram @KingVJ01
-
-    elif query.data.startswith("generate_stream_link"):
-        _, file_id = query.data.split(":")
-        try:
-            user_id = query.from_user.id
-            username =  query.from_user.mention 
-
-            log_msg = await client.send_cached_media(
-                chat_id=LOG_CHANNEL,
-                file_id=file_id,
-            )
-            fileName = {quote_plus(get_name(log_msg))}
-            stream = f"{URL}watch/{str(log_msg.id)}/{quote_plus(get_name(log_msg))}?hash={get_hash(log_msg)}"
-            download = f"{URL}{str(log_msg.id)}/{quote_plus(get_name(log_msg))}?hash={get_hash(log_msg)}"
-
-            xo = await query.message.reply_text(f'🔐')
-            await asyncio.sleep(1)
-            await xo.delete()
-
-# Don't Remove Credit Tg - @VJ_Botz
-# Subscribe YouTube Channel For Amazing Bot https://youtube.com/@Tech_VJ
-# Ask Doubt on telegram @KingVJ01
-
-            button = [[
-                InlineKeyboardButton("🚀 Fast Download 🚀", url=download),  # we download Link
-                InlineKeyboardButton(' Watch online ', url=stream)
-            ]]
-            reply_markup=InlineKeyboardMarkup(button)
-            await log_msg.reply_text(
-                text=f"•• ʟɪɴᴋ ɢᴇɴᴇʀᴀᴛᴇᴅ ꜰᴏʀ ɪᴅ #{user_id} \n•• ᴜꜱᴇʀɴᴀᴍᴇ : {username} \n\n•• ᖴᎥᒪᗴ Nᗩᗰᗴ : {fileName}",
-                quote=True,
-                disable_web_page_preview=True,
-                reply_markup=reply_markup
-            )
-            button = [[
-                InlineKeyboardButton("🚀 Fast Download 🚀", url=download),  # we download Link
-                InlineKeyboardButton(' Watch online ', url=stream)
-            ],[
-                InlineKeyboardButton("• ᴡᴀᴛᴄʜ ɪɴ ᴡᴇʙ ᴀᴘᴘ •", web_app=WebAppInfo(url=stream))
-            ]]
-            reply_markup=InlineKeyboardMarkup(button)
-            await query.message.reply_text(
-                text="•• ʟɪɴᴋ ɢᴇɴᴇʀᴀᴛᴇᴅ ☠︎⚔",
-                quote=True,
-                disable_web_page_preview=True,
-                reply_markup=reply_markup
-            )
-        except Exception as e:
-            print(e)  # print the error message
-            await query.answer(f"☣something went wrong\n\n{e}", show_alert=True)
-            return
-async def get_invite_link(channel_id):
-    """Generate an invite link for the channel."""
-    try:
-        return await app.create_chat_invite_link(channel_id)
-    except PeerIdInvalid:
-        logger.error(f"Invalid peer ID for channel {channel_id}. Check if the channel ID is correct.")
-        return None
-    except ChatAdminRequired:
-        logger.error(f"Bot lacks admin rights to create invite link for channel {channel_id}.")
-        return None
-    except Exception as e:
-        logger.error(f"Could not create invite link for channel {channel_id}: {e}")
-        return None
-
-async def check_subscription(client, user_id):
-    """Check if a user is subscribed to all required channels."""
-    statuses = {}
-
-    for channel_id in REQUIRED_CHANNELS.keys():
-        try:
-            user = await client.get_chat_member(channel_id, user_id)
-            statuses[channel_id] = user.status
-            logger.info(f"User {user_id} status in channel {channel_id}: {user.status}")
-        except UserNotParticipant:
-            statuses[channel_id] = ChatMemberStatus.BANNED  # Treat non-participants as banned
-            logger.info(f"User {user_id} is not a participant of channel {channel_id}.")
-        except Forbidden:
-            logger.error(f"Bot does not have permission to access channel {channel_id}.")
-            statuses[channel_id] = None  # Permission issue
-        except Exception as e:
-            logger.error(f"Error checking subscription status for user {user_id} in channel {channel_id}: {e}")
-            statuses[channel_id] = None  # Other errors
-
-    return statuses
-
-def is_user_subscribed(statuses):
-    """Determine if the user is subscribed based on their statuses."""
-    return all(status in {ChatMemberStatus.MEMBER, ChatMemberStatus.ADMINISTRATOR, 
-                          ChatMemberStatus.OWNER} 
-               for status in statuses.values() if status is not None)
-
-def force_sub(func):
-    """Decorator to enforce subscription on commands."""
-    async def wrapper(client, message):
-        user_id = message.from_user.id
-        logger.info(f"User {user_id} invoked {message.command[0]} command")
-
-        statuses = await check_subscription(client, user_id)
-
-        if is_user_subscribed(statuses):
-            logger.info(f"User {user_id} passed the subscription check.")
-            await func(client, message)  # Run the command if subscribed
-        else:
-            logger.info(f"User {user_id} failed the subscription check.")
-            not_joined_channels = []
-            buttons = []
-            for channel_id, channel_name in REQUIRED_CHANNELS.items():
-                # Only add button if user is not a member of the channel
-                if statuses[channel_id] not in {ChatMemberStatus.MEMBER, ChatMemberStatus.ADMINISTRATOR, 
-                                                  ChatMemberStatus.OWNER}:
-                    not_joined_channels.append(channel_name)  # Add channel name for message
-                    link = await get_invite_link(channel_id)
-                    if link:
-                        buttons.append([InlineKeyboardButton(channel_name, url=link)])  # Button with channel name
-                    else:
-                        logger.warning(f"Skipping button creation for {channel_name} due to invalid link.")
-# Create message listing channels not joined
-            channels_message = "<blockquote>You have not joined the following channels:\n" + "\n".join(
-                f"<b>{i + 1}. {name}</b>" for i, name in enumerate(not_joined_channels)
-            ) + "</blockquote>"
-
-            await message.reply(channels_message, reply_markup=InlineKeyboardMarkup(buttons))
-
-    return wrapper
-# Don't Remove Credit Tg - @VJ_Botz
-# Subscribe YouTube Channel For Amazing Bot https://youtube.com/@Tech_VJ
-# Ask Doubt on telegram @KingVJ01
+            p
