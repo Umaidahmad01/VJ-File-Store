@@ -24,7 +24,7 @@ BOT_TOKEN = environ.get("BOT_TOKEN", "6859257176:AAFlVRzc3dfYcxXbfdcBPRFiqvyDo-v
 
 PICS = (environ.get('PICS', 'https://envs.sh/W9M.jpg')).split() # Bot Start Picture
 ADMINS = [int(admin) if id_pattern.search(admin) else admin for admin in environ.get('ADMINS', '5585016974').split()]
-BOT_USERNAME = environ.get("BOT_USERNAME", "Society_stream_bot") # without @
+BOT_USERNAME = environ.get("BOT_USERNAME", "Harley_robot") # without @
 PORT = environ.get("PORT", "8080")
 
 # Clone Info :-
