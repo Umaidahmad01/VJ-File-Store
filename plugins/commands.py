@@ -43,7 +43,7 @@ def get_size(size):
 
 
 @Client.on_message(filters.command("start"))
-@force_sub  # Apply subscription check to the /start command
+  # Apply subscription check to the /start command
 async def start(client, message):
     await message.reply("Welcome! You have access to this command.")
 
