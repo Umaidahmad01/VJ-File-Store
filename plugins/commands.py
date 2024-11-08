@@ -1,7 +1,8 @@
 # Don't Remove Credit Tg - @VJ_Botz
 # Subscribe YouTube Channel For Amazing Bot https://youtube.com/@Tech_VJ
 # Ask Doubt on telegram @KingVJ01
-
+from pyrogram.enums import ChatMemberStatus
+from pyrogram.errors import UserNotParticipant, Forbidden, PeerIdInvalid, ChatAdminRequired
 import os
 import logging
 import random
@@ -24,11 +25,6 @@ from TechVJ.utils.file_properties import get_name, get_hash, get_media_file_size
 logger = logging.getLogger(__name__)
 
 BATCH_FILES = {}
-
-# Don't Remove Credit Tg - @VJ_Botz
-# Subscribe YouTube Channel For Amazing Bot https://youtube.com/@Tech_VJ
-# Ask Doubt on telegram @KingVJ01
-
 
 def get_size(size):
     """Get size in readable format"""
@@ -539,7 +535,80 @@ async def cb_handler(client: Client, query: CallbackQuery):
             print(e)  # print the error message
             await query.answer(f"☣something went wrong\n\n{e}", show_alert=True)
             return
+async def get_invite_link(channel_id):
+    """Generate an invite link for the channel."""
+    try:
+        return await app.create_chat_invite_link(channel_id)
+    except PeerIdInvalid:
+        logger.error(f"Invalid peer ID for channel {channel_id}. Check if the channel ID is correct.")
+        return None
+    except ChatAdminRequired:
+        logger.error(f"Bot lacks admin rights to create invite link for channel {channel_id}.")
+        return None
+    except Exception as e:
+        logger.error(f"Could not create invite link for channel {channel_id}: {e}")
+        return None
 
+async def check_subscription(client, user_id):
+    """Check if a user is subscribed to all required channels."""
+    statuses = {}
+
+    for channel_id in REQUIRED_CHANNELS.keys():
+        try:
+            user = await client.get_chat_member(channel_id, user_id)
+            statuses[channel_id] = user.status
+            logger.info(f"User {user_id} status in channel {channel_id}: {user.status}")
+        except UserNotParticipant:
+            statuses[channel_id] = ChatMemberStatus.BANNED  # Treat non-participants as banned
+            logger.info(f"User {user_id} is not a participant of channel {channel_id}.")
+        except Forbidden:
+            logger.error(f"Bot does not have permission to access channel {channel_id}.")
+            statuses[channel_id] = None  # Permission issue
+        except Exception as e:
+            logger.error(f"Error checking subscription status for user {user_id} in channel {channel_id}: {e}")
+            statuses[channel_id] = None  # Other errors
+
+    return statuses
+
+def is_user_subscribed(statuses):
+    """Determine if the user is subscribed based on their statuses."""
+    return all(status in {ChatMemberStatus.MEMBER, ChatMemberStatus.ADMINISTRATOR, 
+                          ChatMemberStatus.OWNER} 
+               for status in statuses.values() if status is not None)
+
+def force_sub(func):
+    """Decorator to enforce subscription on commands."""
+    async def wrapper(client, message):
+        user_id = message.from_user.id
+        logger.info(f"User {user_id} invoked {message.command[0]} command")
+
+        statuses = await check_subscription(client, user_id)
+
+        if is_user_subscribed(statuses):
+            logger.info(f"User {user_id} passed the subscription check.")
+            await func(client, message)  # Run the command if subscribed
+        else:
+            logger.info(f"User {user_id} failed the subscription check.")
+            not_joined_channels = []
+            buttons = []
+            for channel_id, channel_name in REQUIRED_CHANNELS.items():
+                # Only add button if user is not a member of the channel
+                if statuses[channel_id] not in {ChatMemberStatus.MEMBER, ChatMemberStatus.ADMINISTRATOR, 
+                                                  ChatMemberStatus.OWNER}:
+                    not_joined_channels.append(channel_name)  # Add channel name for message
+                    link = await get_invite_link(channel_id)
+                    if link:
+                        buttons.append([InlineKeyboardButton(channel_name, url=link)])  # Button with channel name
+                    else:
+                        logger.warning(f"Skipping button creation for {channel_name} due to invalid link.")
+# Create message listing channels not joined
+            channels_message = "<blockquote>You have not joined the following channels:\n" + "\n".join(
+                f"<b>{i + 1}. {name}</b>" for i, name in enumerate(not_joined_channels)
+            ) + "</blockquote>"
+
+            await message.reply(channels_message, reply_markup=InlineKeyboardMarkup(buttons))
+
+    return wrapper
 # Don't Remove Credit Tg - @VJ_Botz
 # Subscribe YouTube Channel For Amazing Bot https://youtube.com/@Tech_VJ
 # Ask Doubt on telegram @KingVJ01
