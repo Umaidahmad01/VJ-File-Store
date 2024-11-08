@@ -20,11 +20,11 @@ def is_enabled(value, default):
 # Bot Information
 API_ID = int(environ.get("API_ID", "20718334"))
 API_HASH = environ.get("API_HASH", "4e81464b29d79c58d0ad8a0c55ece4a5")
-BOT_TOKEN = environ.get("BOT_TOKEN", "6859257176:AAFlVRzc3dfYcxXbfdcBPRFiqvyDo-vcGDw")
+BOT_TOKEN = environ.get("BOT_TOKEN", "7354750534:AAGWPKjrWZjke9Woh29pp7D6TDJYikbJ2kM")
 
 PICS = (environ.get('PICS', 'https://envs.sh/W9M.jpg')).split() # Bot Start Picture
 ADMINS = [int(admin) if id_pattern.search(admin) else admin for admin in environ.get('ADMINS', '5585016974').split()]
-BOT_USERNAME = environ.get("BOT_USERNAME", "Harley_robot") # without @
+BOT_USERNAME = environ.get("BOT_USERNAME", "Society_stream_bot") # without @
 PORT = environ.get("PORT", "8080")
 
 # Clone Info :-
